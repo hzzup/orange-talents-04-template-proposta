@@ -5,9 +5,7 @@ import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 public class ValorUnicoNoBancoValidator implements ConstraintValidator<ValorUnicoNoBanco, Object>{
 
@@ -36,8 +34,7 @@ public class ValorUnicoNoBancoValidator implements ConstraintValidator<ValorUnic
                 .setParameter("valor", value)
                 .getSingleResult();
         
-        if (!valorJaExiste) throw new DataIntegrityViolationException("O valor já consta no banco de dados");
-        //throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        if (!valorJaExiste) throw new ApiErroException(HttpStatus.UNPROCESSABLE_ENTITY,"Valor de " + campoASerPesquisado + "já consta na base");
         return valorJaExiste;
     }
 }
