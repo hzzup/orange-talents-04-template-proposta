@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.hzup.desafioproposta.externo.SolicitacaoAnaliseClient;
-import br.com.hzup.desafioproposta.externo.SolicitacaoAnaliseClient.SolicitacaoRequest;
 import br.com.hzup.desafioproposta.externo.SolicitacaoAnaliseClient.restricoes;
 import feign.FeignException;
 
@@ -33,16 +32,13 @@ public class PropostaCadastro {
 		propostaRep.save(novaProposta);
 		
 		try {
-			solicitacaoAnalise.verificaRestricao(new SolicitacaoRequest(novaProposta.getCpfOuCnpj(),
-					novaProposta.getNome(),
-					Long.toString(novaProposta.getId())));
+			solicitacaoAnalise.verificaRestricao(novaProposta.toSolicitacao());
 			novaProposta.setRestricao(restricoes.SEM_RESTRICAO);
 		} catch (FeignException e) {
-			//retornou 4xx ou 5xx, cliente tem restricao
-			novaProposta.setRestricao(restricoes.COM_RESTRICAO);
+			//Apenas possui restricao caso seja devolvido 422
+			if(e.status()==422)	novaProposta.setRestricao(restricoes.COM_RESTRICAO);
+			else throw e;
 		}
-		
-		//propostaRep.save(novaProposta);
 		
 		URI enderecoCadastro = uriBuilder.path("/propostas/{id}").build(novaProposta.getId());
 		return ResponseEntity.created(enderecoCadastro).build();

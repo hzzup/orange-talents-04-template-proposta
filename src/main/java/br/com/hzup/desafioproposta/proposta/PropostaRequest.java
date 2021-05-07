@@ -7,8 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import br.com.hzup.desafioproposta.compartilhado.CpfOuCnpj;
-import br.com.hzup.desafioproposta.compartilhado.ValorUnicoNoBanco;
+import br.com.hzup.desafioproposta.compartilhado.validacao.CpfOuCnpj;
+import br.com.hzup.desafioproposta.compartilhado.validacao.ValorUnicoNoBanco;
 
 public class PropostaRequest {
 

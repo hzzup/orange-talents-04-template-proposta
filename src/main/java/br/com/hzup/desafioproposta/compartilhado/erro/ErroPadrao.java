@@ -1,4 +1,4 @@
-package br.com.hzup.desafioproposta.compartilhado;
+package br.com.hzup.desafioproposta.compartilhado.erro;
 
 import java.util.Collection;
 

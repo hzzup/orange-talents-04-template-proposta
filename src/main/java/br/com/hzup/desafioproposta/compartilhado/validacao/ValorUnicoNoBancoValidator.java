@@ -1,4 +1,4 @@
-package br.com.hzup.desafioproposta.compartilhado;
+package br.com.hzup.desafioproposta.compartilhado.validacao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -6,6 +6,8 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.http.HttpStatus;
+
+import br.com.hzup.desafioproposta.compartilhado.erro.ApiErroException;
 
 public class ValorUnicoNoBancoValidator implements ConstraintValidator<ValorUnicoNoBanco, Object>{
 

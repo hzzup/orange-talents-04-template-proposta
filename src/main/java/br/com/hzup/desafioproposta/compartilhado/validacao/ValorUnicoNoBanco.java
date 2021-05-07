@@ -1,4 +1,4 @@
-package br.com.hzup.desafioproposta.compartilhado;
+package br.com.hzup.desafioproposta.compartilhado.validacao;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
