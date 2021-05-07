@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,5 +35,12 @@ public class ErroValidacaoHandler {
 		
 		return dto;
 	}
+	
+	@ResponseStatus(code=HttpStatus.UNPROCESSABLE_ENTITY)
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public String handle(DataIntegrityViolationException exception) {
+		return exception.getMessage();
+	}
+	
 	
 }

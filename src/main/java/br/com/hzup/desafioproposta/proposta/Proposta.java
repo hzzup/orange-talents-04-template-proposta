@@ -2,6 +2,7 @@ package br.com.hzup.desafioproposta.proposta;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +18,7 @@ import br.com.hzup.desafioproposta.compartilhado.CpfOuCnpj;
 public class Proposta {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	@NotBlank @CpfOuCnpj
+	@NotBlank @CpfOuCnpj @Column(unique=true)
 	private String cpfOuCnpj;
 	@NotBlank @Email
 	private String email;

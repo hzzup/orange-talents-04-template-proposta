@@ -8,10 +8,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import br.com.hzup.desafioproposta.compartilhado.CpfOuCnpj;
+import br.com.hzup.desafioproposta.compartilhado.ValorUnicoNoBanco;
 
 public class PropostaRequest {
 
-	@NotBlank @CpfOuCnpj
+	@NotBlank @CpfOuCnpj @ValorUnicoNoBanco(tabela=Proposta.class, campo="cpfOuCnpj")
 	private String cpfOuCnpj;
 	@NotBlank @Email
 	private String email;
