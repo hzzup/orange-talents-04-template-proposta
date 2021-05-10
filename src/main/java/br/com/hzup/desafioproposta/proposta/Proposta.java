@@ -73,4 +73,9 @@ public class Proposta {
 	public CartaoRequest toCartao() {
 		return new CartaoRequest(this.cpfOuCnpj,this.nome,Long.toString(this.id));
 	}
+
+	public PropostaRequestGet toRequestGet() {
+		return new PropostaRequestGet(this.cpfOuCnpj,this.email,this.nome,this.endereco,
+									  this.salario,this.restricao,this.cartao.getId());
+	}
 }

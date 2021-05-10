@@ -21,7 +21,7 @@ import feign.FeignException;
 public class PropostaCadastro {
 
 	@Autowired
-	PropostaRepository propostaRep;
+	private PropostaRepository propostaRep;
 	
 	@Autowired
 	private SolicitacaoAnaliseClient solicitacaoAnalise;
