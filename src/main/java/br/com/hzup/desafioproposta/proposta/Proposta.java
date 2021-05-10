@@ -75,7 +75,11 @@ public class Proposta {
 	}
 
 	public PropostaRequestGet toRequestGet() {
+		String cartaoId = null;
+		if (this.cartao != null) {
+			cartaoId = this.cartao.getId();
+		}
 		return new PropostaRequestGet(this.cpfOuCnpj,this.email,this.nome,this.endereco,
-									  this.salario,this.restricao,this.cartao.getId());
+									  this.salario,this.restricao,cartaoId);
 	}
 }

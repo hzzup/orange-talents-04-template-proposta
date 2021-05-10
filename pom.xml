@@ -73,8 +73,9 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
-
+	<packaging>jar</packaging>
 	<build>
+		<finalName>desafio-proposta</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
