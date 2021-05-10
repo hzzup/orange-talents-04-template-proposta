@@ -38,7 +38,7 @@ public class Proposta {
 	private BigDecimal salario;
 	@Enumerated(EnumType.STRING)
 	private restricoes restricao;
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	private Cartao cartao;
 
 	// Utilizado apenas para o hibernate
