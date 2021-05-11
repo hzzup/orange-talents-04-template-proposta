@@ -16,7 +16,7 @@ public class PropostaListagem {
 	private PropostaRepository propostaRep;
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<PropostaRequestGet> listarPorId(@PathVariable Long id) {
+	public ResponseEntity<PropostaRequestGet> listarPorId(@PathVariable("id") Long id) {
 		Optional<Proposta> propostaCadastrada = propostaRep.findById(id);
 		
 		if (propostaCadastrada.isPresent()) {

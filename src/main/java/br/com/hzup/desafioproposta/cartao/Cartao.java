@@ -3,12 +3,16 @@ package br.com.hzup.desafioproposta.cartao;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+
+import br.com.hzup.desafioproposta.cartao.bloqueio.Bloqueio;
 
 @Entity
 public class Cartao {
@@ -21,6 +25,8 @@ public class Cartao {
 	private String titular;
 	@Positive
 	private BigDecimal limite;
+	@OneToOne(cascade=CascadeType.ALL)
+	private Bloqueio cartaoBloqueado;
 	
 	//usado pelo hibernate apenas
 	@Deprecated
@@ -38,6 +44,10 @@ public class Cartao {
 		return id;
 	}
 
+	public Bloqueio getCartaoBloqueado() {
+		return cartaoBloqueado;
+	}
+
 	public LocalDateTime getEmitidoEm() {
 		return emitidoEm;
 	}
@@ -50,11 +60,7 @@ public class Cartao {
 		return limite;
 	}
 
-	@Override
-	public String toString() {
-		return "Cartao [id=" + id + ", emitidoEm=" + emitidoEm + ", titular=" + titular + ", limite=" + limite + "]";
+	public void setCartaoBloqueado(Bloqueio cartaoBloqueado) {
+		this.cartaoBloqueado = cartaoBloqueado;
 	}
-	
-	
-	
 }

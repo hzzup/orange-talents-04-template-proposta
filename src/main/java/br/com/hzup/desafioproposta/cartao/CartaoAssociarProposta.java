@@ -1,4 +1,4 @@
-package br.com.hzup.desafioproposta.proposta;
+package br.com.hzup.desafioproposta.cartao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,18 +8,20 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import br.com.hzup.desafioproposta.externo.SolicitacaoAnaliseClient.restricoes;
+import br.com.hzup.desafioproposta.proposta.Proposta;
+import br.com.hzup.desafioproposta.proposta.PropostaRepository;
 
 @Component
-public class PropostaAssociarCartao {
+public class CartaoAssociarProposta {
 
 	@Autowired
 	PropostaRepository propostaRep;
 	
 	@Autowired
-	PropostaSalvarNovoCartao salvarNoCartao;
+	CartaoNovo salvarNoCartao;
 
 	// tempo em ms
-	@Scheduled(fixedDelay = 5000)
+	@Scheduled(fixedDelay = 10000)
 	private void criaCartaoParaProposta() {
 		List<Proposta> propostas = new ArrayList<>();
 		propostas = propostaRep.findByRestricaoAndCartao(restricoes.SEM_RESTRICAO, null);
