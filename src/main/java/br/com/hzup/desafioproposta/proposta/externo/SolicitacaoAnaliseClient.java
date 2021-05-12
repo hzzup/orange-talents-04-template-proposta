@@ -1,6 +1,7 @@
 package br.com.hzup.desafioproposta.proposta.externo;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -8,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface SolicitacaoAnaliseClient {
 
 	@RequestMapping(method = RequestMethod.POST,value="/api/solicitacao", consumes = "application/json")
-	public SolicitacaoResponse verificaRestricao(SolicitacaoRequest request);
+	public SolicitacaoResponse verificaRestricao(@RequestBody SolicitacaoRequest request);
 
 	//minha classe de requisicao para o cliente feign
 	public class SolicitacaoRequest {
 		private String documento;
 		private String nome;
-		private String idProposta;
+		private Long idProposta;
 		
-		public SolicitacaoRequest(String documento, String nome, String idProposta) {
+		public SolicitacaoRequest(String documento, String nome, Long idProposta) {
 			this.documento = documento;
 			this.nome = nome;
 			this.idProposta = idProposta;
@@ -24,7 +25,7 @@ public interface SolicitacaoAnaliseClient {
 
 		public String getDocumento() {return documento;}
 		public String getNome() {return nome;}
-		public String getIdProposta() {return idProposta;}
+		public Long getIdProposta() {return idProposta;}
 	}
 	
 	//minha classe de resposta vinda do cliente feign

@@ -28,8 +28,8 @@ public class BiometriaController {
 	@Autowired
 	private CartaoRepository cartaoRep;
 
-	@PostMapping("/{cartaoNro}") @Transactional
-	public ResponseEntity<BiometriaRequest> cadastrar(@PathVariable("cartaoNro") String cartaoNro,
+	@PostMapping("/{cartaoId}") @Transactional
+	public ResponseEntity<BiometriaRequest> cadastrar(@PathVariable("cartaoId") Long cartaoId,
 									@RequestBody @Valid BiometriaRequest biometriaReq,
 									UriComponentsBuilder uriBuilder) {
 		
@@ -39,7 +39,7 @@ public class BiometriaController {
 		}
 		
 		//achar cartao pelo numero informado na url
-		Optional<Cartao> cartao = cartaoRep.findByCartaoNro(cartaoNro);
+		Optional<Cartao> cartao = cartaoRep.findById(cartaoId);
 		
 		//caso o cartao nao foi encontrado
 		if(cartao.isEmpty()) {

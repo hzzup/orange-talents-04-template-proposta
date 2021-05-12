@@ -38,7 +38,7 @@ public class PropostaController {
 	
 	//gerar uma nova proposta e verificar a restricao
 	@PostMapping @Transactional
-	public ResponseEntity<PropostaRequest> create(@RequestBody @Valid PropostaRequest propostaReq, UriComponentsBuilder uriBuilder) { 
+	public ResponseEntity<?> create(@RequestBody @Valid PropostaRequest propostaReq, UriComponentsBuilder uriBuilder) { 
 		Proposta novaProposta = propostaReq.toModel();
 		propostaRep.save(novaProposta);
 		try {

@@ -21,7 +21,7 @@ public class CartaoAssociarProposta {
 	CartaoNovo salvarNoCartao;
 
 	// tempo em ms
-	@Scheduled(fixedDelay = 10000)
+	@Scheduled(fixedDelay = 5000)
 	public void criaCartaoParaProposta() {
 		//procurar por propostas sem cartao e sem restricao
 		List<Proposta> propostas = new ArrayList<>();

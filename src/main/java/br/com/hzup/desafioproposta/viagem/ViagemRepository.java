@@ -1,9 +1,9 @@
-package br.com.hzup.desafioproposta.cartao;
+package br.com.hzup.desafioproposta.viagem;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CartaoRepository extends CrudRepository<Cartao,Long>{
+public interface ViagemRepository extends CrudRepository<Viagem,Long> {
 
 }

@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -23,10 +22,8 @@ public class Cartao {
 	private Long id;
 	@NotBlank
 	private String cartaoNro;
-	@FutureOrPresent @NotNull
+	@NotNull
 	private LocalDateTime emitidoEm;
-	@NotBlank
-	private String titular;
 	@Positive
 	private BigDecimal limite;
 	@OneToOne(cascade=CascadeType.ALL)
@@ -36,11 +33,9 @@ public class Cartao {
 	@Deprecated
 	public Cartao() {}
 	
-	public Cartao(@NotBlank String cartaoNro, @FutureOrPresent @NotNull LocalDateTime emitidoEm, @NotBlank String titular,
-			@Positive BigDecimal limite) {
+	public Cartao(@NotBlank String cartaoNro, @NotNull LocalDateTime emitidoEm,	@Positive BigDecimal limite) {
 		this.cartaoNro = cartaoNro;
 		this.emitidoEm = emitidoEm;
-		this.titular = titular;
 		this.limite = limite;
 	}
 
@@ -48,7 +43,6 @@ public class Cartao {
 	public String getCartaoNro() {return cartaoNro;}
 	public Bloqueio getCartaoBloqueado() {return cartaoBloqueado;}
 	public LocalDateTime getEmitidoEm() {return emitidoEm;}
-	public String getTitular() {return titular;}
 	public BigDecimal getLimite() {return limite;}
 
 	//necessario metodo set para o bloqueio, pois vem de api externa feign cliente(cartaoBlock)

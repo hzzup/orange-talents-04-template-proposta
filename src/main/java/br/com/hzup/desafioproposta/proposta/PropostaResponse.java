@@ -13,17 +13,17 @@ public class PropostaResponse {
 	private String endereco;
 	private BigDecimal salario;
 	private restricoes restricao;
-	private String cartaoNro;
+	private Long cartaoId;
 	
 	public PropostaResponse(String cpfOuCnpj, String email, String nome, String endereco, BigDecimal salario,
-			restricoes restricao, String cartaoNro) {
+			restricoes restricao, Long cartaoId) {
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.email = email;
 		this.nome = nome;
 		this.endereco = endereco;
 		this.salario = salario;
 		this.restricao = restricao;
-		this.cartaoNro = cartaoNro;
+		this.cartaoId = cartaoId;
 	}
 
 	public String getCpfOuCnpj() {return cpfOuCnpj;}
@@ -32,5 +32,5 @@ public class PropostaResponse {
 	public String getEndereco() {return endereco;}
 	public BigDecimal getSalario() {return salario;}
 	public restricoes getRestricao() {return restricao;}
-	public String getCartaoNro() {return cartaoNro;}
+	public Long getCartaoId() {return cartaoId;}
 }

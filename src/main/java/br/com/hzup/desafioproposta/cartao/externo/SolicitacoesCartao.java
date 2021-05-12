@@ -3,7 +3,6 @@ package br.com.hzup.desafioproposta.cartao.externo;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -25,9 +24,9 @@ public interface SolicitacoesCartao {
 	public class CartaoRequest {
 		private String documento;
 		private String nome;
-		private String idProposta;
+		private Long idProposta;
 		
-		public CartaoRequest(String documento, String nome, String idProposta) {
+		public CartaoRequest(String documento, String nome, Long idProposta) {
 			this.documento = documento;
 			this.nome = nome;
 			this.idProposta = idProposta;
@@ -35,36 +34,28 @@ public interface SolicitacoesCartao {
 
 		public String getDocumento() {return documento;}
 		public String getNome() {return nome;}
-		public String getIdProposta() {return idProposta;}
+		public Long getIdProposta() {return idProposta;}
 	}	
 	
 	//classe de reposta recebia pelo meu feign client "cartao"
 	public class CartaoResponse {
-		@NotBlank
 		private String id;
-		@FutureOrPresent @NotNull
 		private LocalDateTime emitidoEm;
-		@NotBlank
-		private String titular;
-		@Positive
 		private BigDecimal limite;
 		
-		public CartaoResponse(@NotBlank String id, @FutureOrPresent @NotNull LocalDateTime emitidoEm,
-				@NotBlank String titular, @Positive BigDecimal limite) {
+		public CartaoResponse(String id, LocalDateTime emitidoEm, BigDecimal limite) {
 			this.id = id;
 			this.emitidoEm = emitidoEm;
-			this.titular = titular;
 			this.limite = limite;
 		}
 
 		public String getId() {return id;}
 		public LocalDateTime getEmitidoEm() {return emitidoEm;}
-		public String getTitular() {return titular;}
 		public BigDecimal getLimite() {return limite;}
 		
 		//precisamos devolver no molde de cartao para poder persistir no banco
 		public Cartao toModel() {
-			return new Cartao(this.id, this.emitidoEm, this.titular, this.limite);
+			return new Cartao(this.id, this.emitidoEm, this.limite);
 		}
 	}
 }

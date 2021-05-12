@@ -39,7 +39,7 @@ public class Proposta {
 	private BigDecimal salario;
 	@Enumerated(EnumType.STRING)
 	private restricoes restricao;
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Cartao cartao;
 
 	// Utilizado apenas para o hibernate
@@ -55,8 +55,8 @@ public class Proposta {
 		this.endereco = endereco;
 		this.salario = salario;
 	}
-	
-	public Long getId() {return this.id;}
+
+	public Long getId() {return id;}
 	public restricoes getRestricao() {return restricao;}
 
 	//restricao precisa ser setada na mao, por isso um setter
@@ -68,31 +68,30 @@ public class Proposta {
 	public void setCartao(Cartao cartao) {
 		this.cartao = cartao;
 	}
-	
 
 	//transformar minha proposta no formato de solicitacao(request) para o cliente feign "analise"
 	//para verificar a restricao do cliente
 	//passar documento - nome - id (tudo em formato de string)
 	public SolicitacaoRequest toSolicitacao() {
-		return new SolicitacaoRequest(this.cpfOuCnpj,this.nome,Long.toString(this.id));
+		return new SolicitacaoRequest(this.cpfOuCnpj,this.nome,this.id);
 	}
 
 	//transformar minha proposta no formato de solicitacao(request) para o cliente feign "cartao"
 	//para gerar um novo cartão para meu cliente
 	//passar documento - nome - id (tudo em formato de string)
 	public CartaoRequest toCartaoRequest() {
-		return new CartaoRequest(this.cpfOuCnpj,this.nome,Long.toString(this.id));
+		return new CartaoRequest(this.cpfOuCnpj,this.nome, this.id);
 	}
 
 	//Transformar minha proposta no formato de modelo necessario para a devolucao de dados
 	//de um metodo do tipo GET, resumindo, os dados que devemos retornar como resposta http
 	//aqui verificamos tambem se o cliente possui um cartao ou nao.
 	public PropostaResponse toPropostaResponse() {
-		String cartaoNro = null;
+		Long cartaoId = null;
 		if (this.cartao != null) {
-			cartaoNro = this.cartao.getCartaoNro();
+			cartaoId = this.cartao.getId();
 		}
 		return new PropostaResponse(this.cpfOuCnpj,this.email,this.nome,this.endereco,
-								this.salario,this.restricao,cartaoNro);
+								this.salario,this.restricao,cartaoId);
 	}
 }

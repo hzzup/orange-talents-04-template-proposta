@@ -28,13 +28,13 @@ public class BloqueioController {
 	@Autowired
 	private BloquearCartao bloqueioLegado;
 	
-	@PostMapping("/{cartaoNro}") @Transactional
-	public ResponseEntity<?> bloquear(@PathVariable("cartaoNro") String cartaoNro,
+	@PostMapping("/{cartaoId}") @Transactional
+	public ResponseEntity<?> bloquear(@PathVariable("cartaoId") Long cartaoId,
 			@RequestHeader(value = "User-Agent") String userAgent,
 			HttpServletRequest request) {
 		
 		BloqueioRequest bloqueioReq = new BloqueioRequest(request.getRemoteAddr(),userAgent);
-		Optional<Cartao> cartaoBloquear = cartaoRep.findByCartaoNro(cartaoNro);
+		Optional<Cartao> cartaoBloquear = cartaoRep.findById(cartaoId);
 		
 		//caso não achar o cartao retorne 404
 		if (cartaoBloquear.isEmpty()) return ResponseEntity.notFound().build();
@@ -48,7 +48,7 @@ public class BloqueioController {
 			cartaoBloquear.get().setCartaoBloqueado(bloqueioFinalizado);
 			cartaoRep.save(cartaoBloquear.get());
 			//enviamos uma requisicao no sistema legado para bloquear o cartao
-			bloqueioLegado.bloqueioCartaoLegado(new SistemaResponsavel("Desafio-Proposta"),cartaoNro);
+			bloqueioLegado.bloqueioCartaoLegado(new SistemaResponsavel("Desafio-Proposta"),cartaoBloquear.get().getCartaoNro());
 		} catch (FeignException e) {
 			//requisicao falhou no feign
 			return ResponseEntity.badRequest().build();
