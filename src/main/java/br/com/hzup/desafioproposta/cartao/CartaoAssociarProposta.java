@@ -22,7 +22,8 @@ public class CartaoAssociarProposta {
 
 	// tempo em ms
 	@Scheduled(fixedDelay = 10000)
-	private void criaCartaoParaProposta() {
+	public void criaCartaoParaProposta() {
+		//procurar por propostas sem cartao e sem restricao
 		List<Proposta> propostas = new ArrayList<>();
 		propostas = propostaRep.findByRestricaoAndCartao(restricoes.SEM_RESTRICAO, null);
 		if (propostas.size() >= 1) {

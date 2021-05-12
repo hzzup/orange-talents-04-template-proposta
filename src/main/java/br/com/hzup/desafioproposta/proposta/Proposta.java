@@ -24,6 +24,7 @@ import br.com.hzup.desafioproposta.proposta.externo.SolicitacaoAnaliseClient.res
 
 @Entity
 public class Proposta {
+	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	@NotBlank @CpfOuCnpj @Column(unique=true)
@@ -45,6 +46,7 @@ public class Proposta {
 	@Deprecated
 	public Proposta() {}
 
+	//Construtor com os campos obrigatórios
 	public Proposta(@NotBlank String cpfOuCnpj, @NotBlank @Email String email, @NotBlank String nome,
 			@NotBlank String endereco, @Positive @NotNull BigDecimal salario) {
 		this.cpfOuCnpj = cpfOuCnpj;
@@ -54,32 +56,43 @@ public class Proposta {
 		this.salario = salario;
 	}
 	
-	public Long getId() {
-		return this.id;
-	}
+	public Long getId() {return this.id;}
+	public restricoes getRestricao() {return restricao;}
 
+	//restricao precisa ser setada na mao, por isso um setter
 	public void setRestricao(restricoes restricao) {
 		this.restricao = restricao;
 	}
 	
+	//cartao tambem necessita ser settado na mao por ser gerado em outro sistema
 	public void setCartao(Cartao cartao) {
 		this.cartao = cartao;
 	}
+	
 
+	//transformar minha proposta no formato de solicitacao(request) para o cliente feign "analise"
+	//para verificar a restricao do cliente
+	//passar documento - nome - id (tudo em formato de string)
 	public SolicitacaoRequest toSolicitacao() {
 		return new SolicitacaoRequest(this.cpfOuCnpj,this.nome,Long.toString(this.id));
 	}
 
+	//transformar minha proposta no formato de solicitacao(request) para o cliente feign "cartao"
+	//para gerar um novo cartão para meu cliente
+	//passar documento - nome - id (tudo em formato de string)
 	public CartaoRequest toCartaoRequest() {
 		return new CartaoRequest(this.cpfOuCnpj,this.nome,Long.toString(this.id));
 	}
 
-	public PropostaRequestGet toRequestGet() {
-		String cartaoId = null;
+	//Transformar minha proposta no formato de modelo necessario para a devolucao de dados
+	//de um metodo do tipo GET, resumindo, os dados que devemos retornar como resposta http
+	//aqui verificamos tambem se o cliente possui um cartao ou nao.
+	public PropostaResponse toPropostaResponse() {
+		String cartaoNro = null;
 		if (this.cartao != null) {
-			cartaoId = this.cartao.getId();
+			cartaoNro = this.cartao.getCartaoNro();
 		}
-		return new PropostaRequestGet(this.cpfOuCnpj,this.email,this.nome,this.endereco,
-									  this.salario,this.restricao,cartaoId);
+		return new PropostaResponse(this.cpfOuCnpj,this.email,this.nome,this.endereco,
+								this.salario,this.restricao,cartaoNro);
 	}
 }

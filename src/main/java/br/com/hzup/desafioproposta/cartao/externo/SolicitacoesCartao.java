@@ -3,7 +3,6 @@ package br.com.hzup.desafioproposta.cartao.externo;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import javax.persistence.Id;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -16,12 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.hzup.desafioproposta.cartao.Cartao;
 
-@FeignClient(url="localhost:8888", name="cartao")
+@FeignClient(url="${cartoes.host}", name="cartao")
 public interface SolicitacoesCartao {
 
-	@RequestMapping(method = RequestMethod.POST, value="/api/cartoes", consumes = "application/json")
+	@RequestMapping(method = RequestMethod.POST,value="/api/cartoes", consumes = "application/json")
 	public CartaoResponse gerarCartao(@RequestBody CartaoRequest request);
 
+	//classe para ser enviada como requisicao da minha api externa feign client "cartao"
 	public class CartaoRequest {
 		private String documento;
 		private String nome;
@@ -33,21 +33,14 @@ public interface SolicitacoesCartao {
 			this.idProposta = idProposta;
 		}
 
-		public String getDocumento() {
-			return documento;
-		}
-
-		public String getNome() {
-			return nome;
-		}
-
-		public String getIdProposta() {
-			return idProposta;
-		}
+		public String getDocumento() {return documento;}
+		public String getNome() {return nome;}
+		public String getIdProposta() {return idProposta;}
 	}	
 	
+	//classe de reposta recebia pelo meu feign client "cartao"
 	public class CartaoResponse {
-		@Id @NotBlank
+		@NotBlank
 		private String id;
 		@FutureOrPresent @NotNull
 		private LocalDateTime emitidoEm;
@@ -64,22 +57,12 @@ public interface SolicitacoesCartao {
 			this.limite = limite;
 		}
 
-		public String getId() {
-			return id;
-		}
-
-		public LocalDateTime getEmitidoEm() {
-			return emitidoEm;
-		}
-
-		public String getTitular() {
-			return titular;
-		}
-
-		public BigDecimal getLimite() {
-			return limite;
-		}
+		public String getId() {return id;}
+		public LocalDateTime getEmitidoEm() {return emitidoEm;}
+		public String getTitular() {return titular;}
+		public BigDecimal getLimite() {return limite;}
 		
+		//precisamos devolver no molde de cartao para poder persistir no banco
 		public Cartao toModel() {
 			return new Cartao(this.id, this.emitidoEm, this.titular, this.limite);
 		}

@@ -2,7 +2,6 @@ package br.com.hzup.desafioproposta.cartao.bloqueio;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,19 +17,16 @@ public class Bloqueio {
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
 	@NotNull
 	private LocalDateTime dataBloqueio = LocalDateTime.now();
-	
 	@NotBlank
 	private String ipBloqueio;
-	
 	@NotBlank
 	private String userAgent;
-	
 	@OneToOne @NotNull 
 	private Cartao cartaoBloqueado;
 	
+	//utilizado pelo hibernate apenas
 	@Deprecated
 	public Bloqueio() {}
 

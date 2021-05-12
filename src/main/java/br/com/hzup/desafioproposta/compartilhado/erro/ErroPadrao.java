@@ -2,6 +2,7 @@ package br.com.hzup.desafioproposta.compartilhado.erro;
 
 import java.util.Collection;
 
+//classe para trabalhar o erro recebido na excecao
 public class ErroPadrao {
 
 	private Collection<String> mensagens;
@@ -10,7 +11,5 @@ public class ErroPadrao {
 		this.mensagens = mensagens;
 	}
 
-	public Collection<String> getMensagens() {
-		return mensagens;
-	}
+	public Collection<String> getMensagens() {return mensagens;}
 }

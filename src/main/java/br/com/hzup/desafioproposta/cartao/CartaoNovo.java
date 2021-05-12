@@ -16,13 +16,13 @@ import feign.FeignException;
 @Component
 public class CartaoNovo {
 
-
 	@Autowired
 	private SolicitacoesCartao solicitaCartao;
 	
 	@Transactional
 	public void cadastrar(PropostaRepository propostaRep, List<Proposta> propostas) {
 		try {
+			//para cada proposta deve ser tentado cadastrar um novo cartao pelo feign "cartao"
 			propostas.forEach(proposta -> {
 				CartaoResponse cartaoResponse = solicitaCartao.gerarCartao(proposta.toCartaoRequest());
 				Cartao cartao = cartaoResponse.toModel();
@@ -31,5 +31,4 @@ public class CartaoNovo {
 			propostaRep.saveAll(propostas);
 		} catch (FeignException e) {}
 	}
-	
 }

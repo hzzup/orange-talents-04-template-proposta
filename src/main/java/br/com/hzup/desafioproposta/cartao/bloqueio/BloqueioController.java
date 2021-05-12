@@ -20,7 +20,7 @@ import br.com.hzup.desafioproposta.cartao.bloqueio.externo.BloquearCartao.Sistem
 import feign.FeignException;
 
 @RestController @RequestMapping("/bloqueio")
-public class BloqueioCartao {
+public class BloqueioController {
 
 	@Autowired
 	private CartaoRepository cartaoRep;
@@ -28,27 +28,33 @@ public class BloqueioCartao {
 	@Autowired
 	private BloquearCartao bloqueioLegado;
 	
-	@PostMapping("/{id}") @Transactional
-	public ResponseEntity<?> bloquear(@PathVariable("id") String cartaoId,
+	@PostMapping("/{cartaoNro}") @Transactional
+	public ResponseEntity<?> bloquear(@PathVariable("cartaoNro") String cartaoNro,
 			@RequestHeader(value = "User-Agent") String userAgent,
-			HttpServletRequest request){
+			HttpServletRequest request) {
 		
 		BloqueioRequest bloqueioReq = new BloqueioRequest(request.getRemoteAddr(),userAgent);
-		Optional<Cartao> cartaoBloquear = cartaoRep.findById(cartaoId);
+		Optional<Cartao> cartaoBloquear = cartaoRep.findByCartaoNro(cartaoNro);
 		
-		//return ResponseEntity.ok().build();
+		//caso não achar o cartao retorne 404
 		if (cartaoBloquear.isEmpty()) return ResponseEntity.notFound().build();
+		//caso o cartao ja estiver bloqueado retorne 422
 		if (cartaoBloquear.get().getCartaoBloqueado() != null) return ResponseEntity.unprocessableEntity().build();
 		
-		Bloqueio bloqueioFinalizado = new Bloqueio(bloqueioReq, cartaoBloquear.get()); 
-		//bloqueioRep.save(bloqueioFinalizado);
-		cartaoBloquear.get().setCartaoBloqueado(bloqueioFinalizado);
-		cartaoRep.save(cartaoBloquear.get());
-		
+		//devemos bloquear o cartao no sistema legado tambem
 		try {
-			bloqueioLegado.bloqueioCartaoLegado(new SistemaResponsavel("Desafio-Proposta"),cartaoId);
-		} catch (FeignException e) {}
+			//atribuir o novo bloqueio ao cartao e salvar o cartao (verificar cascade mode)
+			Bloqueio bloqueioFinalizado = new Bloqueio(bloqueioReq, cartaoBloquear.get()); 
+			cartaoBloquear.get().setCartaoBloqueado(bloqueioFinalizado);
+			cartaoRep.save(cartaoBloquear.get());
+			//enviamos uma requisicao no sistema legado para bloquear o cartao
+			bloqueioLegado.bloqueioCartaoLegado(new SistemaResponsavel("Desafio-Proposta"),cartaoNro);
+		} catch (FeignException e) {
+			//requisicao falhou no feign
+			return ResponseEntity.badRequest().build();
+		}
 
+		//se tudo funcionou, retorne ok!
 		return ResponseEntity.ok().build();
 	}
 }

@@ -19,13 +19,10 @@ public class Biometria {
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
 	@NotNull @Lob
 	private byte[] biometria;
-	
 	@ManyToOne
 	private Cartao cartao;
-	
 	@PastOrPresent
 	private LocalDateTime dataCriacao = LocalDateTime.now();
 
@@ -34,7 +31,5 @@ public class Biometria {
 		this.cartao = cartao;
 	}
 
-	public Long getId() {
-		return id;
-	}
+	public Long getId() {return id;}
 }

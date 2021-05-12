@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.FutureOrPresent;
@@ -17,8 +19,10 @@ import br.com.hzup.desafioproposta.cartao.bloqueio.Bloqueio;
 @Entity
 public class Cartao {
 	
-	@Id @NotBlank
-	private String id;
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+	@NotBlank
+	private String cartaoNro;
 	@FutureOrPresent @NotNull
 	private LocalDateTime emitidoEm;
 	@NotBlank
@@ -32,34 +36,22 @@ public class Cartao {
 	@Deprecated
 	public Cartao() {}
 	
-	public Cartao(@NotBlank String id, @FutureOrPresent @NotNull LocalDateTime emitidoEm, @NotBlank String titular,
+	public Cartao(@NotBlank String cartaoNro, @FutureOrPresent @NotNull LocalDateTime emitidoEm, @NotBlank String titular,
 			@Positive BigDecimal limite) {
-		this.id = id;
+		this.cartaoNro = cartaoNro;
 		this.emitidoEm = emitidoEm;
 		this.titular = titular;
 		this.limite = limite;
 	}
 
-	public String getId() {
-		return id;
-	}
+	public Long getId() {return id;}
+	public String getCartaoNro() {return cartaoNro;}
+	public Bloqueio getCartaoBloqueado() {return cartaoBloqueado;}
+	public LocalDateTime getEmitidoEm() {return emitidoEm;}
+	public String getTitular() {return titular;}
+	public BigDecimal getLimite() {return limite;}
 
-	public Bloqueio getCartaoBloqueado() {
-		return cartaoBloqueado;
-	}
-
-	public LocalDateTime getEmitidoEm() {
-		return emitidoEm;
-	}
-
-	public String getTitular() {
-		return titular;
-	}
-
-	public BigDecimal getLimite() {
-		return limite;
-	}
-
+	//necessario metodo set para o bloqueio, pois vem de api externa feign cliente(cartaoBlock)
 	public void setCartaoBloqueado(Bloqueio cartaoBloqueado) {
 		this.cartaoBloqueado = cartaoBloqueado;
 	}

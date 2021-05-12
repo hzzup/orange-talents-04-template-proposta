@@ -20,7 +20,7 @@ import br.com.hzup.desafioproposta.cartao.Cartao;
 import br.com.hzup.desafioproposta.cartao.CartaoRepository;
 
 @RestController @RequestMapping("/biometrias")
-public class BiometriaCadastro {
+public class BiometriaController {
 	
 	@Autowired
 	private BiometriaRepository biometriaRep;
@@ -28,24 +28,29 @@ public class BiometriaCadastro {
 	@Autowired
 	private CartaoRepository cartaoRep;
 
-	@PostMapping("/{cartaoId}") @Transactional
-	public ResponseEntity<BiometriaRequest> cadastrar(@PathVariable("cartaoId") String cartaoId,
-									@RequestBody @Valid BiometriaRequest biometriaReq, UriComponentsBuilder uriBuilder) {
+	@PostMapping("/{cartaoNro}") @Transactional
+	public ResponseEntity<BiometriaRequest> cadastrar(@PathVariable("cartaoNro") String cartaoNro,
+									@RequestBody @Valid BiometriaRequest biometriaReq,
+									UriComponentsBuilder uriBuilder) {
 		
+		//verificar se a biometrica foi em base64
 		if(!Base64.isBase64(biometriaReq.getBiometria())){
 			return ResponseEntity.badRequest().build();
 		}
 		
-		Optional<Cartao> cartao = cartaoRep.findById(cartaoId);
+		//achar cartao pelo numero informado na url
+		Optional<Cartao> cartao = cartaoRep.findByCartaoNro(cartaoNro);
 		
+		//caso o cartao nao foi encontrado
 		if(cartao.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 		
+		//por fim se tudo estiver ok, criarmos a biometria
 		Biometria novaBiometria = biometriaReq.toModel(cartao.get());
 		biometriaRep.save(novaBiometria);
 		
-		URI biometriaCadastrada = uriBuilder.path("/biometrias/{cartaoId}").build(novaBiometria.getId());
+		URI biometriaCadastrada = uriBuilder.path("/biometrias/{biometriaId}").build(novaBiometria.getId());
 		return ResponseEntity.created(biometriaCadastrada).build();
 	}
 	

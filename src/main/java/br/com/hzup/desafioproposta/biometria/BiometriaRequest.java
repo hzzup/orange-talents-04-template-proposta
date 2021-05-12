@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 
 import br.com.hzup.desafioproposta.cartao.Cartao;
 
+//classe com os atributos enviados pelo cliente na requisicao
 public class BiometriaRequest {
 
 	@NotNull @Lob
@@ -14,8 +15,8 @@ public class BiometriaRequest {
 		return biometria;
 	}
 	
+	//transformar minha classe request na classe entidade
 	public Biometria toModel(Cartao cartao) {
-		Biometria biometriaNova = new Biometria(biometria,cartao);
-		return biometriaNova;
+		return new Biometria(biometria,cartao);
 	}
 }
