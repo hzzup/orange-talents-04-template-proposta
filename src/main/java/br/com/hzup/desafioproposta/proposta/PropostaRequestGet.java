@@ -2,7 +2,7 @@ package br.com.hzup.desafioproposta.proposta;
 
 import java.math.BigDecimal;
 
-import br.com.hzup.desafioproposta.externo.SolicitacaoAnaliseClient.restricoes;
+import br.com.hzup.desafioproposta.proposta.externo.SolicitacaoAnaliseClient.restricoes;
 
 public class PropostaRequestGet {
 

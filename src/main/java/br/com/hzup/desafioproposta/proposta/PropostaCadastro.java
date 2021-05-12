@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.hzup.desafioproposta.externo.SolicitacaoAnaliseClient;
-import br.com.hzup.desafioproposta.externo.SolicitacaoAnaliseClient.restricoes;
+import br.com.hzup.desafioproposta.proposta.externo.SolicitacaoAnaliseClient;
+import br.com.hzup.desafioproposta.proposta.externo.SolicitacaoAnaliseClient.restricoes;
 import feign.FeignException;
 
 @RequestMapping("/propostas") @RestController

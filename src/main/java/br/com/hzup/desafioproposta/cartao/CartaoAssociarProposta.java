@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import br.com.hzup.desafioproposta.externo.SolicitacaoAnaliseClient.restricoes;
 import br.com.hzup.desafioproposta.proposta.Proposta;
 import br.com.hzup.desafioproposta.proposta.PropostaRepository;
+import br.com.hzup.desafioproposta.proposta.externo.SolicitacaoAnaliseClient.restricoes;
 
 @Component
 public class CartaoAssociarProposta {

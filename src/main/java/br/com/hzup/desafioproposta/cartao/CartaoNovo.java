@@ -7,7 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.hzup.desafioproposta.externo.SolicitacoesCartao;
+import br.com.hzup.desafioproposta.cartao.externo.SolicitacoesCartao;
+import br.com.hzup.desafioproposta.cartao.externo.SolicitacoesCartao.CartaoResponse;
 import br.com.hzup.desafioproposta.proposta.Proposta;
 import br.com.hzup.desafioproposta.proposta.PropostaRepository;
 import feign.FeignException;
@@ -23,7 +24,8 @@ public class CartaoNovo {
 	public void cadastrar(PropostaRepository propostaRep, List<Proposta> propostas) {
 		try {
 			propostas.forEach(proposta -> {
-				Cartao cartao = solicitaCartao.gerarCartao(proposta.toCartao());
+				CartaoResponse cartaoResponse = solicitaCartao.gerarCartao(proposta.toCartaoRequest());
+				Cartao cartao = cartaoResponse.toModel();
 				proposta.setCartao(cartao);
 			});
 			propostaRep.saveAll(propostas);

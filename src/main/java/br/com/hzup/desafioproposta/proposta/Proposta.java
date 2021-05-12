@@ -17,10 +17,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import br.com.hzup.desafioproposta.cartao.Cartao;
+import br.com.hzup.desafioproposta.cartao.externo.SolicitacoesCartao.CartaoRequest;
 import br.com.hzup.desafioproposta.compartilhado.validacao.CpfOuCnpj;
-import br.com.hzup.desafioproposta.externo.SolicitacaoAnaliseClient.SolicitacaoRequest;
-import br.com.hzup.desafioproposta.externo.SolicitacaoAnaliseClient.restricoes;
-import br.com.hzup.desafioproposta.externo.SolicitacoesCartao.CartaoRequest;
+import br.com.hzup.desafioproposta.proposta.externo.SolicitacaoAnaliseClient.SolicitacaoRequest;
+import br.com.hzup.desafioproposta.proposta.externo.SolicitacaoAnaliseClient.restricoes;
 
 @Entity
 public class Proposta {
@@ -70,7 +70,7 @@ public class Proposta {
 		return new SolicitacaoRequest(this.cpfOuCnpj,this.nome,Long.toString(this.id));
 	}
 
-	public CartaoRequest toCartao() {
+	public CartaoRequest toCartaoRequest() {
 		return new CartaoRequest(this.cpfOuCnpj,this.nome,Long.toString(this.id));
 	}
 
