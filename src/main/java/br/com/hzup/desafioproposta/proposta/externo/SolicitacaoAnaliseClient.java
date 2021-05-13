@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(url="${analise.host}", name="analise")
 public interface SolicitacaoAnaliseClient {
 
-	@RequestMapping(method = RequestMethod.POST,value="/api/solicitacao", consumes = "application/json")
+	@RequestMapping(method = RequestMethod.POST,value="/api/solicitacao",produces="application/json", consumes = "application/json")
 	public SolicitacaoResponse verificaRestricao(@RequestBody SolicitacaoRequest request);
 
 	//minha classe de requisicao para o cliente feign
@@ -32,19 +32,19 @@ public interface SolicitacaoAnaliseClient {
 	public class SolicitacaoResponse {
 		private String documento;
 		private String nome;
-		private String idProposta;
 		private restricoes restricaoAtual;
+		private Long idProposta;
 		
-		public SolicitacaoResponse(String documento, String nome, String idProposta, restricoes restricaoAtual) {
+		public SolicitacaoResponse(String documento, String nome, restricoes restricaoAtual, Long idProposta) {
 			this.documento = documento;
 			this.nome = nome;
-			this.idProposta = idProposta;
 			this.restricaoAtual = restricaoAtual;
+			this.idProposta = idProposta;
 		}
 
 		public String getDocumento() {return documento;}
 		public String getNome() {return nome;}
-		public String getIdProposta() {return idProposta;}
+		public Long getIdProposta() {return idProposta;}
 		public restricoes getRestricaoAtual() {return restricaoAtual;}
 		
 	}

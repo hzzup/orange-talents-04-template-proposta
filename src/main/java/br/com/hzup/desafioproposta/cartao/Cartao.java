@@ -28,6 +28,8 @@ public class Cartao {
 	private BigDecimal limite;
 	@OneToOne(cascade=CascadeType.ALL)
 	private Bloqueio cartaoBloqueado;
+	//@OneToOne(cascade=CascadeType.ALL)
+	//private Proposta proposta;
 	
 	//usado pelo hibernate apenas
 	@Deprecated

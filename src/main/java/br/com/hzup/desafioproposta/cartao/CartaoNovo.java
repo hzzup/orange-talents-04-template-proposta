@@ -24,7 +24,8 @@ public class CartaoNovo {
 		try {
 			//para cada proposta deve ser tentado cadastrar um novo cartao pelo feign "cartao"
 			propostas.forEach(proposta -> {
-				CartaoResponse cartaoResponse = solicitaCartao.gerarCartao(proposta.toCartaoRequest());
+				//CartaoResponse cartaoResponse = solicitaCartao.receberCartao(proposta.getId().toString());
+				CartaoResponse cartaoResponse = solicitaCartao.receberCartao(proposta.getId().toString());
 				Cartao cartao = cartaoResponse.toModel();
 				proposta.setCartao(cartao);
 			});

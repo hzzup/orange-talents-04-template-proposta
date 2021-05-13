@@ -1,5 +1,6 @@
-package br.com.hzup.desafioproposta.viagem;
+package br.com.hzup.desafioproposta.cartao.viagem;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.hzup.desafioproposta.cartao.Cartao;
 import br.com.hzup.desafioproposta.cartao.CartaoRepository;
+import br.com.hzup.desafioproposta.cartao.viagem.externo.NotificaViagemLegado;
+import br.com.hzup.desafioproposta.cartao.viagem.externo.NotificaViagemLegado.ViagemRequestFeign;
 
 @RestController @RequestMapping("/viagens")
 public class ViagemController {
@@ -26,6 +29,9 @@ public class ViagemController {
 	
 	@Autowired
 	ViagemRepository viagemRep;
+	
+	@Autowired 
+	NotificaViagemLegado viagemLegado;
 
 	@PostMapping("/{cartaoId}") @Transactional
 	public ResponseEntity<?> cadastrarViagem(@PathVariable("cartaoId") Long cartaoId,
@@ -35,9 +41,13 @@ public class ViagemController {
 		Optional<Cartao> cartao = cartaoRep.findById(cartaoId);
 		if (cartao.isEmpty()) return ResponseEntity.notFound().build();
 		
-		//crio o modelo de viagem passando os campos necessarios para criar meu objeto e salvo
-		Viagem novaViagem = viagemReq.toModel(cartao.get(), request.getRemoteAddr(), userAgent);
-		viagemRep.save(novaViagem);
+		try {
+			//crio o modelo de viagem passando os campos necessarios para criar meu objeto e salvo
+			Viagem novaViagem = viagemReq.toModel(cartao.get(), request.getRemoteAddr(), userAgent);
+			viagemRep.save(novaViagem);
+			viagemLegado.notificaViagemLegado(cartao.get().getCartaoNro(), new ViagemRequestFeign(viagemReq));
+		} catch (Exception e) {}
+
 		
 		return ResponseEntity.ok().build();
 	}

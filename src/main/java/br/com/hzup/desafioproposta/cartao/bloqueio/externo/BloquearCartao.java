@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(url="${cartoes.host}", name="cartaoBlock")
 public interface BloquearCartao {
 
-	@RequestMapping(method = RequestMethod.POST, value="/api/cartoes/{id}/bloqueios", consumes = "application/json")
+	@RequestMapping(method = RequestMethod.POST, value="/api/cartoes/{id}/bloqueios",consumes="application/json", produces = "application/json")
 	public String bloqueioCartaoLegado(@RequestBody SistemaResponsavel sistemaResponsavel,
 			@PathVariable("id") String cartaoNro);
 

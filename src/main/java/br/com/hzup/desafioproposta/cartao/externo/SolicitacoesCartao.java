@@ -3,24 +3,36 @@ package br.com.hzup.desafioproposta.cartao.externo;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.hzup.desafioproposta.cartao.Cartao;
 
 @FeignClient(url="${cartoes.host}", name="cartao")
 public interface SolicitacoesCartao {
 
-	@RequestMapping(method = RequestMethod.POST,value="/api/cartoes", consumes = "application/json")
+	//Metodo nao utilizado, o cartao e gerado automaticamente pela api externa
+	@Deprecated
+	@RequestMapping(method = RequestMethod.POST,value="/api/cartoes",consumes="application/json", produces = "application/json")
 	public CartaoResponse gerarCartao(@RequestBody CartaoRequest request);
+	
+	//pegar o cartao da api externa
+	//@RequestMapping(method = RequestMethod.GET,value="/api/cartoes", produces = "application/json")
+	@GetMapping("/api/cartoes")
+	public CartaoResponse receberCartao(@RequestParam(name="idProposta") String idProposta);
+	
+	//nao funciona pois nao possuo variavel na url {}
+	@GetMapping("/api/cartoes")
+	public CartaoResponse receberCartaoQuebrado(@PathVariable(name="idProposta") String idProposta);
 
 	//classe para ser enviada como requisicao da minha api externa feign client "cartao"
+	//Nao utilizada mais
+	@Deprecated
 	public class CartaoRequest {
 		private String documento;
 		private String nome;

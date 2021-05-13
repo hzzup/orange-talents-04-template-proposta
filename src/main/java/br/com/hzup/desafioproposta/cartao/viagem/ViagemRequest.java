@@ -1,4 +1,4 @@
-package br.com.hzup.desafioproposta.viagem;
+package br.com.hzup.desafioproposta.cartao.viagem;
 
 import java.time.LocalDate;
 

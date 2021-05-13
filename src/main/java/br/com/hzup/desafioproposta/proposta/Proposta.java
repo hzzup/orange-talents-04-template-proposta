@@ -3,7 +3,6 @@ package br.com.hzup.desafioproposta.proposta;
 import java.math.BigDecimal;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -27,7 +26,7 @@ public class Proposta {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	@NotBlank @CpfOuCnpj @Column(unique=true)
+	@NotBlank @CpfOuCnpj
 	private String cpfOuCnpj;
 	@NotBlank @Email
 	private String email;
