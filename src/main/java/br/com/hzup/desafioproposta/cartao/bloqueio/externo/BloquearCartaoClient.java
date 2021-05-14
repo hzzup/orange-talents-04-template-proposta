@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @FeignClient(url="${cartoes.host}", name="cartaoBlock")
-public interface BloquearCartao {
+public interface BloquearCartaoClient {
 
 	@RequestMapping(method = RequestMethod.POST, value="/api/cartoes/{id}/bloqueios",consumes="application/json", produces = "application/json")
 	public String bloqueioCartaoLegado(@RequestBody SistemaResponsavel sistemaResponsavel,

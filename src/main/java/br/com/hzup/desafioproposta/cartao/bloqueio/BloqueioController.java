@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.hzup.desafioproposta.cartao.Cartao;
 import br.com.hzup.desafioproposta.cartao.CartaoRepository;
-import br.com.hzup.desafioproposta.cartao.bloqueio.externo.BloquearCartao;
-import br.com.hzup.desafioproposta.cartao.bloqueio.externo.BloquearCartao.SistemaResponsavel;
+import br.com.hzup.desafioproposta.cartao.bloqueio.externo.BloquearCartaoClient;
+import br.com.hzup.desafioproposta.cartao.bloqueio.externo.BloquearCartaoClient.SistemaResponsavel;
 import feign.FeignException;
 
 @RestController @RequestMapping("/bloqueio")
@@ -26,7 +26,7 @@ public class BloqueioController {
 	private CartaoRepository cartaoRep;
 	
 	@Autowired
-	private BloquearCartao bloqueioLegado;
+	private BloquearCartaoClient bloqueioLegado;
 	
 	@PostMapping("/{cartaoId}") @Transactional
 	public ResponseEntity<?> bloquear(@PathVariable("cartaoId") Long cartaoId,

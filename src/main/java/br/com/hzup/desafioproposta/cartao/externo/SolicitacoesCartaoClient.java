@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import br.com.hzup.desafioproposta.cartao.Cartao;
 
 @FeignClient(url="${cartoes.host}", name="cartao")
-public interface SolicitacoesCartao {
+public interface SolicitacoesCartaoClient {
 
 	//Metodo nao utilizado, o cartao e gerado automaticamente pela api externa
 	@Deprecated
@@ -24,7 +24,7 @@ public interface SolicitacoesCartao {
 	//pegar o cartao da api externa
 	//@RequestMapping(method = RequestMethod.GET,value="/api/cartoes", produces = "application/json")
 	@GetMapping("/api/cartoes")
-	public CartaoResponse receberCartao(@RequestParam(name="idProposta") String idProposta);
+	public CartaoResponse receberCartao(@RequestParam(name="idProposta") Long idProposta);
 	
 	//nao funciona pois nao possuo variavel na url {}
 	@GetMapping("/api/cartoes")

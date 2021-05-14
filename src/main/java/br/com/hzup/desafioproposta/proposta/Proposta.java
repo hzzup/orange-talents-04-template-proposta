@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import br.com.hzup.desafioproposta.cartao.Cartao;
-import br.com.hzup.desafioproposta.cartao.externo.SolicitacoesCartao.CartaoRequest;
+import br.com.hzup.desafioproposta.cartao.externo.SolicitacoesCartaoClient.CartaoRequest;
 import br.com.hzup.desafioproposta.compartilhado.validacao.CpfOuCnpj;
 import br.com.hzup.desafioproposta.proposta.externo.SolicitacaoAnaliseClient.SolicitacaoRequest;
 import br.com.hzup.desafioproposta.proposta.externo.SolicitacaoAnaliseClient.restricoes;
