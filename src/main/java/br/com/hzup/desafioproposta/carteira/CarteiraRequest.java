@@ -21,7 +21,7 @@ public class CarteiraRequest {
 
 	//enum com os tipos de carteiras disponiveis
 	public enum tipo_carteira {
-		PAYPAL
+		PAYPAL, SAMSUNG_PAY
 	}
 	
 	public CarteiraRequest(@NotBlank @Email String email, @NotBlank tipo_carteira carteira) {
