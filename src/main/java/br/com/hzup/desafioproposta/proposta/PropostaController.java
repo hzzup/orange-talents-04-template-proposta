@@ -20,10 +20,18 @@ import br.com.hzup.desafioproposta.compartilhado.metricas.MinhasMetricas;
 import br.com.hzup.desafioproposta.proposta.externo.SolicitacaoAnaliseClient;
 import br.com.hzup.desafioproposta.proposta.externo.SolicitacaoAnaliseClient.restricoes;
 import feign.FeignException;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 
 @RequestMapping("/propostas") @RestController
 public class PropostaController {
 
+	private final Tracer tracer;
+	
+	public PropostaController(Tracer tracer) {
+		this.tracer = tracer;
+	}
+	
 	//Inserindo a minha classe de metricas
 	@Autowired
 	private MinhasMetricas metricas;
@@ -41,6 +49,9 @@ public class PropostaController {
 	public ResponseEntity<?> create(@RequestBody @Valid PropostaRequest propostaReq, UriComponentsBuilder uriBuilder) { 
 		Proposta novaProposta = propostaReq.toModel();
 		propostaRep.save(novaProposta);
+		//testando spans open tracing
+		Span activeSpan = tracer.activeSpan();
+		activeSpan.setTag("user.id", novaProposta.getId());
 		try {
 			solicitacaoAnalise.verificaRestricao(novaProposta.toSolicitacao());
 			novaProposta.setRestricao(restricoes.SEM_RESTRICAO);

@@ -10,10 +10,12 @@ import org.springframework.stereotype.Component;
 import br.com.hzup.desafioproposta.proposta.Proposta;
 import br.com.hzup.desafioproposta.proposta.PropostaRepository;
 import br.com.hzup.desafioproposta.proposta.externo.SolicitacaoAnaliseClient.restricoes;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 
 @Component
 public class CartaoAssociarProposta {
-
+	
 	@Autowired
 	PropostaRepository propostaRep;
 	
@@ -21,7 +23,7 @@ public class CartaoAssociarProposta {
 	CartaoNovo salvarNoCartao;
 
 	// tempo em ms
-	@Scheduled(fixedDelay = 5000)
+	@Scheduled(fixedDelay = 30000)
 	public void criaCartaoParaProposta() {
 		//procurar por propostas sem cartao e sem restricao
 		List<Proposta> propostas = new ArrayList<>();

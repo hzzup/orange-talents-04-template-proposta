@@ -59,7 +59,7 @@ public class MinhasMetricas {
         strings.add(UUID.randomUUID().toString());
     }
     
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 60000)
     public void simulandoGauge() {
         double randomNumber = random.nextInt();
         if (randomNumber % 2 == 0) {

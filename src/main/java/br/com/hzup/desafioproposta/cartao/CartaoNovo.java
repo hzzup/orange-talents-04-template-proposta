@@ -12,10 +12,18 @@ import br.com.hzup.desafioproposta.cartao.externo.SolicitacoesCartaoClient.Carta
 import br.com.hzup.desafioproposta.proposta.Proposta;
 import br.com.hzup.desafioproposta.proposta.PropostaRepository;
 import feign.FeignException;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 
 @Component
 public class CartaoNovo {
 
+	private final Tracer tracer;
+	
+	public CartaoNovo(Tracer tracer) {
+		this.tracer = tracer;
+	}
+	
 	@Autowired
 	private SolicitacoesCartaoClient solicitaCartao;
 	
@@ -24,6 +32,9 @@ public class CartaoNovo {
 		try {
 			//para cada proposta deve ser tentado cadastrar um novo cartao pelo feign "cartao"
 			propostas.forEach(proposta -> {
+				//passando baggage item dentro do meu scheduler
+				Span activeSpan = tracer.activeSpan();
+				activeSpan.setBaggageItem("id.proposta.cartao", proposta.getId().toString());
 				//CartaoResponse cartaoResponse = solicitaCartao.receberCartao(proposta.getId().toString());
 				CartaoResponse cartaoResponse = solicitaCartao.receberCartao(proposta.getId());
 				Cartao cartao = cartaoResponse.toModel();
