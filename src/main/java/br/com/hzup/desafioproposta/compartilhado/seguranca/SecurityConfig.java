@@ -19,7 +19,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers(HttpMethod.POST, "/bloqueio/**").hasAuthority("SCOPE_acesso_cartao")
 				.antMatchers(HttpMethod.POST, "/viagens/**").hasAuthority("SCOPE_acesso_cartao")
 				.antMatchers(HttpMethod.POST, "/carteiras/**").hasAuthority("SCOPE_acesso_cartao")
-				.antMatchers("/actuator/**").hasAuthority("SCOPE_acesso_metricas")
+				.antMatchers("/actuator/**").permitAll()//Acesso para o prometheus
+				//.antMatchers("/actuator/**").hasAuthority("SCOPE_acesso_metricas")
 				.anyRequest().authenticated())
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 	}
